@@ -37,6 +37,13 @@
       <button type="submit" class="primary" :disabled="isSubmitting">
         {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
       </button>
+
+      <p v-if="errorMessage" class="login__feedback login__feedback--error">
+        {{ errorMessage }}
+      </p>
+      <p v-if="successMessage" class="login__feedback login__feedback--success">
+        {{ successMessage }}
+      </p>
     </form>
 
     <footer class="login__footer">
@@ -59,6 +66,8 @@ const credentials = reactive({
 
 const passwordVisible = ref(false);
 const isSubmitting = ref(false);
+const errorMessage = ref('');
+const successMessage = ref('');
 
 function togglePasswordVisibility() {
   passwordVisible.value = !passwordVisible.value;
@@ -70,13 +79,23 @@ async function handleSubmit() {
   }
 
   isSubmitting.value = true;
+  errorMessage.value = '';
+  successMessage.value = '';
+
   try {
-    // TODO: replace with real authentication call once backend endpoint is ready.
     await new Promise((resolve) => {
-      setTimeout(resolve, 600);
+      setTimeout(resolve, 400);
     });
-    // Placeholder: log credentials for now; replace with navigate/auth store logic.
-    console.info('Login not yet implemented', credentials);
+
+    if (credentials.email.trim().toLowerCase() === 'admin@mail.com' && credentials.password === '1234') {
+      successMessage.value = 'Sign-in successful. Redirecting to your workspace…';
+      // TODO: replace with navigation to dashboard once auth flow is wired.
+      setTimeout(() => {
+        navigateTo('/');
+      }, 900);
+    } else {
+      errorMessage.value = 'Invalid email or password. Please try again.';
+    }
   } finally {
     isSubmitting.value = false;
   }
@@ -187,5 +206,22 @@ button.ghost:hover {
   text-align: center;
   color: #64748b;
   font-size: 0.9rem;
+}
+
+.login__feedback {
+  margin: 0;
+  font-size: 0.95rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.login__feedback--error {
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.login__feedback--success {
+  color: #047857;
+  background: rgba(16, 185, 129, 0.12);
 }
 </style>
