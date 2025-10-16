@@ -44,8 +44,8 @@
     </div>
 
     <!-- Requirement Setup Step -->
-    <div v-else-if="currentStep === 2" class="step-container">
-      <div class="content-card content-wide">
+    <div v-else-if="currentStep === 2" class="step-container overflow-scroll">
+      <div class="content-card content-wide ">
         <div class="corner-accent"></div>
 
         <div class="step-header">
@@ -249,6 +249,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useStatusStore } from '../stores/statusStore';
 
 definePageMeta({
   layout: 'sidebar'
@@ -267,7 +268,13 @@ const teamBackend = ref('')
 const requirementDescription = ref('')
 
 // Step 3 data
-const generatedTasks = ref([
+type Task = {
+  title: string;
+  description: string;
+  assignee: string;
+}
+
+const generatedTasks = ref<Task[]>([
   {
     title: 'Web Mockup',
     description: 'Define your requirement and assign team...',
@@ -316,8 +323,90 @@ const isStep2Valid = computed(() => {
   return teamBA.value && teamFrontend.value && teamBackend.value && requirementDescription.value
 })
 
+
+const generateTasks = async (): Promise<Task[]> => {
+  const res = await fetch('http://localhost:3001/n8n/trigger', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      projectKey: selectedProject.value,
+      teamBA: teamBA.value,
+      teamFrontend: teamFrontend.value,
+      teamBackend: teamBackend.value,
+      requirement: requirementDescription.value
+    })
+  })
+  if (!res.ok) {
+    throw new Error('Failed to generate tasks')
+  }
+  const data = await res.json()
+  return data as Task[]
+}
+
+
+const savetojira  = async () => {
+  const res = await fetch('http://localhost:3001/n8n/trigger', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      projectKey: selectedProject.value,
+      teamBA: teamBA.value,
+      teamFrontend: teamFrontend.value,
+      teamBackend: teamBackend.value,
+      requirement: requirementDescription.value
+    })
+  })
+  return res
+}
+
+const statusStore = useStatusStore()
 // Methods
-const nextStep = () => {
+const nextStep = async () => {
+  if(currentStep.value ===1){
+    
+  }
+  if(currentStep.value ===2){
+    //  projectKey: selectedProject.value,
+    //   teamBA: teamBA.value,
+    //   teamFrontend: teamFrontend.value,
+    //   teamBackend: teamBackend.value,
+    //   requirement: requirementDescription validate pls
+    if(!selectedProject.value || !teamBA.value || !teamFrontend.value || !teamBackend.value || !requirementDescription.value){
+      statusStore.pushToast({
+        title: 'Invalid data',
+        message: 'Please fill all the fields',
+        variant: 'error'
+      })
+      return
+    }
+    const res2 = await generateTasks()
+    if(res2){
+        generatedTasks.value = res2 || [ ]
+       }
+  }
+  if(currentStep.value ===3){
+    //  projectKey: selectedProject.value,
+    //   teamBA: teamBA.value,
+    //   teamFrontend: teamFrontend.value,
+    //   teamBackend: teamBackend.value,
+    //   requirement: requirementDescription validate pls
+    if(!selectedProject.value || !teamBA.value || !teamFrontend.value || !teamBackend.value || !requirementDescription.value){
+      statusStore.pushToast({
+        title: 'Invalid data',
+        message: 'Please fill all the fields',
+        variant: 'error'
+      })
+      return
+    }
+    const res3 = await savetojira()
+    if(res3){
+
+    }
+  }
   if (currentStep.value < 4) {
     currentStep.value++
   }
@@ -363,7 +452,8 @@ const saveTask = () => {
 
 .step-container {
   width: 100%;
-  height: calc(100vh - 4rem);
+  height: max-content;
+  min-height: calc(100vh);
 }
 
 .content-card {

@@ -10,6 +10,11 @@ export default defineNuxtConfig({
       token: process.env.token ,
       email: process.env.email ,
       apiBaseUrl: process.env.apiBaseUrl,
+      JIRA_CLIENT_ID: process.env.JIRA_CLIENT_ID,
+      JIRA_CLIENT_SECRET: process.env.JIRA_CLIENT_SECRET,
+      JIRA_BASE_URL: process.env.JIRA_BASE_URL,
+      JIRA_REDIRECT_URI: process.env.JIRA_REDIRECT_URI,
+      JIRA_AUTH_URL: process.env.JIRA_AUTH_URL,
     }
   },
   typescript: {
