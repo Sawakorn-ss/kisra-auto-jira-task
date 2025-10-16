@@ -20,7 +20,7 @@ export class N8nService {
     if (secret) headers['X-Signature'] = secret;
 
     try {
-      const res$ = this.http.post(url, payload, { headers }).pipe(timeout(15000));
+      const res$ = this.http.post(url, payload, { headers }).pipe(timeout(1500000));
       const { data, status } = await firstValueFrom(res$);
       return { status, data, forwarded: payload }; // แนบสิ่งที่ส่งไปช่วยดีบัก
     } catch (e) {
