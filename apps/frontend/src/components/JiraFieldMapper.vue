@@ -22,7 +22,10 @@ const props = defineProps<{
   connection: JiraConnectionState;
 }>();
 
-const emit = defineEmits<{ (event: 'update:value', value: Partial<JiraFieldMapping>): void }>();
+const emit = defineEmits<{
+  (event: 'update:value', value: Partial<JiraFieldMapping>): void;
+  (event: 'save', value: Partial<JiraFieldMapping>): void;
+}>();
 
 const localMapping = reactive({ ...props.value });
 

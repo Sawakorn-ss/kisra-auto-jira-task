@@ -3,7 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom } from 'rxjs';
 
-interface OAuthTokenResponse {
+export interface OAuthTokenResponse {
   access_token: string;
   refresh_token?: string;
   expires_in: number;

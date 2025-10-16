@@ -16,13 +16,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
+import type { Ref } from 'vue';
 
-const props = defineProps<{ modelValue: string }>();
-const emit = defineEmits<{ (event: 'update:modelValue', value: string): void }>();
+type ModelValue = string | Ref<string>;
+
+const props = defineProps<{ modelValue: ModelValue }>();
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void;
+  (event: 'refine'): void;
+  (event: 'breakdown'): void;
+}>();
 
 const localValue = computed({
-  get: () => props.modelValue,
+  get: () => unref(props.modelValue),
   set: (value: string) => emit('update:modelValue', value)
 });
 </script>

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', '@vueuse/nuxt'],
   runtimeConfig: {
     public: {
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'http://localhost:3001',
       jiraApiBaseUrl: '',
       jiraOAuthClientId: ''
     }
