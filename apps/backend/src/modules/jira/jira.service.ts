@@ -124,4 +124,29 @@ export class JiraService {
       throw new InternalServerErrorException('Unexpected Jira API error');
     }
   }
+
+  async getJiraProject() {
+    const email = process.env.EMAIL;
+    const apiToken = process.env.PASSWORD; // ถ้าใช้ Jira Cloud = API Token
+    const token = Buffer.from(`${email}:${apiToken}`).toString('base64');
+  
+    const res = await fetch(
+      'https://kisratech.atlassian.net/rest/api/3/project/search',
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Basic ${token}`, // ✅ แก้ตรงนี้
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+  
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Jira API error: ${res.status} ${text}`);
+    }
+  
+    return await res.json();
+  }
 }

@@ -109,4 +109,9 @@ export class JiraController {
       siteUrl: siteHeader
     });
   }
+
+  @Get('getname')
+ async getJiraname(){
+    return await this.jiraService.getJiraProject()
+  }
 }
