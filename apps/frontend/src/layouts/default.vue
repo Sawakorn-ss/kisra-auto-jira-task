@@ -1,10 +1,23 @@
 <template>
-  <div class="flex min-h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <Sidebar />
-
-    <!-- Main Content -->
-    <main class="flex-1 bg-gradient-to-tr from-white to-yellow-50 p-10">
+  <div class="app-shell">
+    <header class="app-header">
+      <h1>Kisra Auto Jira Task</h1>
+      <nav>
+        <NuxtLink to="/">
+          Editor
+        </NuxtLink>
+        <NuxtLink to="/preview">
+          Preview
+        </NuxtLink>
+        <NuxtLink to="/settings/jira">
+          Jira Settings
+        </NuxtLink>
+        <NuxtLink to="/templates">
+          Templates
+        </NuxtLink>
+      </nav>
+    </header>
+    <main>
       <slot />
     </main>
   </div>
