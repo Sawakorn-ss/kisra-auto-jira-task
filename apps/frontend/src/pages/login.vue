@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 
 definePageMeta({
   layout: 'auth'
@@ -101,6 +101,12 @@ async function handleSubmit() {
     isSubmitting.value = false;
   }
 }
+
+//onmount log token
+onMounted(() => {
+  const runtimePublic = useRuntimeConfig().public;
+  console.log('Token:', runtimePublic.token);
+});
 </script>
 
 <style scoped>
