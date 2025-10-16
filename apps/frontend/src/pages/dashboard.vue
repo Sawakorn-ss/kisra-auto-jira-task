@@ -18,6 +18,7 @@
     <!-- Project Selector -->
     <div class="project-selector">
       <label for="project-select" class="project-label">Project Name</label>
+<<<<<<< HEAD
       <select id="project-select" v-model="selectedProject" class="project-select">
         <option value="project-404">
           Project 404
@@ -27,6 +28,23 @@
         </option>
         <option value="project-2">
           Project 2
+=======
+      <select
+        id="project-select"
+        v-model="selectedProject"
+        class="project-select"
+        :disabled="isLoadingProjects"
+      >
+        <option value="" disabled>
+          {{ isLoadingProjects ? 'Loading projects...' : 'Select a project' }}
+        </option>
+        <option
+          v-for="project in projects"
+          :key="project.id"
+          :value="project.key"
+        >
+          {{ project.name }}
+>>>>>>> origin/main
         </option>
       </select>
     </div>
@@ -173,14 +191,46 @@
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 import { ref } from 'vue'
 import DoughnutChart from '~/components/charts/DoughnutChart.vue'
 
 const selectedProject = ref('project-404')
+=======
+import { ref, onMounted } from 'vue'
+import DoughnutChart from '~/components/charts/DoughnutChart.vue'
+import { projectService, type JiraProject } from '~/services/projectService'
+
+const selectedProject = ref('')
+const projects = ref<JiraProject[]>([])
+const isLoadingProjects = ref(false)
+>>>>>>> origin/main
 
 definePageMeta({
   layout: 'sidebar'
 })
+<<<<<<< HEAD
+=======
+
+onMounted(async () => {
+  await loadProjects()
+})
+
+const loadProjects = async () => {
+  isLoadingProjects.value = true
+  try {
+    projects.value = await projectService.getAllProjects()
+    // Set default project if available
+    if (projects.value.length > 0) {
+      selectedProject.value = projects.value[0].key
+    }
+  } catch (error) {
+    console.error('Failed to load projects:', error)
+  } finally {
+    isLoadingProjects.value = false
+  }
+}
+>>>>>>> origin/main
 </script>
 
 <style scoped>
@@ -196,10 +246,19 @@ definePageMeta({
   padding: 2rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   position: relative;
+<<<<<<< HEAD
   overflow: hidden;
   height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
+=======
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+>>>>>>> origin/main
 }
 
 .corner-accent {
@@ -272,6 +331,15 @@ definePageMeta({
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
+<<<<<<< HEAD
+=======
+.project-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f9fafb;
+}
+
+>>>>>>> origin/main
 /* Process Section */
 .process-section {
   background: white;

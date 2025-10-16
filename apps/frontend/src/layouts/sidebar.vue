@@ -94,7 +94,13 @@
 
       <!-- Main content -->
       <main class="app-main">
+<<<<<<< HEAD
         <slot />
+=======
+        <div class="app-main__inner">
+          <slot />
+        </div>
+>>>>>>> origin/main
       </main>
     </div>
   </div>
@@ -111,6 +117,12 @@
   height: 100vh;
   padding: 2rem;
   gap: 2rem;
+<<<<<<< HEAD
+=======
+  max-width: 1600px;
+  margin: 0 auto;
+  min-height: 0;
+>>>>>>> origin/main
 }
 
 .app-sidebar {
@@ -285,8 +297,35 @@
 
 .app-main {
   flex: 1;
+<<<<<<< HEAD
   overflow-y: auto;
   background: transparent;
+=======
+  min-height: 0;
+  overflow-y: auto;
+  background: transparent;
+  display: flex;
+}
+
+.app-main__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 0;
+}
+
+@media (min-width: 1800px) {
+  .app-content {
+    max-width: 1760px;
+  }
+}
+
+@media (min-width: 2100px) {
+  .app-content {
+    max-width: 1920px;
+  }
+>>>>>>> origin/main
 }
 
 /* Mobile responsive */
@@ -294,6 +333,10 @@
   .app-content {
     flex-direction: column;
     padding: 1rem;
+<<<<<<< HEAD
+=======
+    max-width: none;
+>>>>>>> origin/main
   }
 
   .app-sidebar {

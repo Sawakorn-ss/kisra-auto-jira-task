@@ -161,6 +161,7 @@ const { jira, rawText } = storeToRefs(requirementStore)
 const runtimeConfig = useRuntimeConfig()
 const apiBaseUrl = runtimeConfig.public.apiBaseUrl || 'http://localhost:3001'
 
+<<<<<<< HEAD
 if (!jira.value.siteUrl && runtimeConfig.public.jiraDefaultSiteUrl) {
   requirementStore.updateJiraState({ siteUrl: runtimeConfig.public.jiraDefaultSiteUrl })
 }
@@ -174,6 +175,27 @@ if (!jira.value.email && runtimeConfig.public.jiraDefaultEmail) {
 }
 
 if (!jira.value.apiToken && runtimeConfig.public.jiraDefaultApiToken) {
+=======
+if (typeof runtimeConfig.public.jiraDefaultSiteUrl === 'string' && runtimeConfig.public.jiraDefaultSiteUrl) {
+  requirementStore.updateJiraState({ siteUrl: runtimeConfig.public.jiraDefaultSiteUrl })
+}
+
+if (
+  typeof runtimeConfig.public.jiraDefaultProjectKey === 'string' &&
+  runtimeConfig.public.jiraDefaultProjectKey
+) {
+  requirementStore.updateJiraState({ projectKey: runtimeConfig.public.jiraDefaultProjectKey })
+}
+
+if (typeof runtimeConfig.public.jiraDefaultEmail === 'string' && runtimeConfig.public.jiraDefaultEmail) {
+  requirementStore.updateJiraState({ email: runtimeConfig.public.jiraDefaultEmail })
+}
+
+if (
+  typeof runtimeConfig.public.jiraDefaultApiToken === 'string' &&
+  runtimeConfig.public.jiraDefaultApiToken
+) {
+>>>>>>> origin/main
   requirementStore.updateJiraState({ apiToken: runtimeConfig.public.jiraDefaultApiToken })
 }
 

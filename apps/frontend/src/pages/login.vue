@@ -93,7 +93,11 @@ async function handleSubmit () {
       successMessage.value = 'Log in successful. Redirecting to your workspace…'
       // TODO: replace with navigation to dashboard once auth flow is wired.
       setTimeout(() => {
+<<<<<<< HEAD
         navigateTo('/')
+=======
+        navigateTo('/dashboard')
+>>>>>>> origin/main
       }, 900)
     } else {
       errorMessage.value = 'Invalid email or password. Please try again.'
