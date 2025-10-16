@@ -1,0 +1,18 @@
+{
+  "name": "kisra-auto-jira-task",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Monorepo for the Kisra Auto Jira Task product",
+  "scripts": {
+    "dev:frontend": "npm --prefix apps/frontend run dev",
+    "dev:backend": "npm --prefix apps/backend run start:dev",
+    "build:frontend": "npm --prefix apps/frontend run build",
+    "build:backend": "npm --prefix apps/backend run build",
+    "lint": "npm --prefix apps/frontend run lint && npm --prefix apps/backend run lint",
+    "format": "npm --prefix apps/frontend run format && npm --prefix apps/backend run format"
+  },
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend"
+  ]
+}
