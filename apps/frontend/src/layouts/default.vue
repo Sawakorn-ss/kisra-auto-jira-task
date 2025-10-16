@@ -77,12 +77,16 @@ nav a:hover {
 .app-main {
   flex: 1;
   padding: 2rem 0 3rem;
+  min-height: 0;
 }
 
 .app-main__inner {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 2rem;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 1600px) {

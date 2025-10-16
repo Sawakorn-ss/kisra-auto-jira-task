@@ -115,6 +115,7 @@
   gap: 2rem;
   max-width: 1600px;
   margin: 0 auto;
+  min-height: 0;
 }
 
 .app-sidebar {
@@ -289,6 +290,7 @@
 
 .app-main {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   background: transparent;
   display: flex;
@@ -299,6 +301,7 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  min-height: 0;
 }
 
 @media (min-width: 1800px) {

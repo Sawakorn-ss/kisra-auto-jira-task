@@ -224,10 +224,12 @@ const loadProjects = async () => {
   padding: 2rem;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   position: relative;
-  overflow: hidden;
-  height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .corner-accent {
