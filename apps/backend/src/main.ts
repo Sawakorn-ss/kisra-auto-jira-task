@@ -8,8 +8,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   const configService = app.get(ConfigService);
   const port = configService.get<number>('http.port') ?? 3001;
-
-  app.useLogger(app.get(Logger));
+ 
+  app.useLogger(new Logger('AppLogger'));
   app.use(helmet());
   app.enableCors({ origin: configService.get<string>('http.corsOrigin') ?? '*' });
   app.useGlobalPipes(

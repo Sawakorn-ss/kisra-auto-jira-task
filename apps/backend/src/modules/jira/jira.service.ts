@@ -89,8 +89,16 @@ export class JiraService {
   }
 
   private getAuthHeaders(authHeader: string | undefined) {
+    // If header not provided, try to build Basic auth from env-configured credentials
     if (!authHeader) {
-      throw new UnauthorizedException('Missing Authorization header for Jira request');
+      const email = this.config.get<string>('jira.email');
+      const apiToken = this.config.get<string>('jira.apiToken');
+      if (email && apiToken) {
+        const basic = Buffer.from(`${email}:${apiToken}`).toString('base64');
+        authHeader = `Basic ${basic}`;
+      } else {
+        throw new UnauthorizedException('Missing Authorization header for Jira request');
+      }
     }
     const header = authHeader.startsWith('Bearer ') || authHeader.startsWith('Basic ')
       ? authHeader

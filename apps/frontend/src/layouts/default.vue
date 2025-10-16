@@ -23,38 +23,6 @@
   </div>
 </template>
 
-<style scoped>
-.app-shell {
-  min-height: 100vh;
-  background: #f8fafc;
-  display: flex;
-  flex-direction: column;
-}
-
-.app-header {
-  background: #0f172a;
-  color: white;
-  padding: 1rem 2rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
-  justify-content: space-between;
-}
-
-nav {
-  display: flex;
-  gap: 1rem;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-main {
-  flex: 1;
-  padding: 2rem;
-}
-</style>
+<script setup lang="ts">
+import Sidebar from '~/components/Sidebar.vue'
+</script>

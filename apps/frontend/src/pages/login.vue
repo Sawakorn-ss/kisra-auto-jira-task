@@ -102,6 +102,12 @@ async function handleSubmit () {
     isSubmitting.value = false
   }
 }
+
+//onmount log token
+onMounted(() => {
+  const runtimePublic = useRuntimeConfig().public;
+  console.log('Token:', runtimePublic.token);
+});
 </script>
 
 <style scoped>
