@@ -272,6 +272,12 @@ definePageMeta({
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
+.project-select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f9fafb;
+}
+
 /* Process Section */
 .process-section {
   background: white;
