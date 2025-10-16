@@ -94,7 +94,9 @@
 
       <!-- Main content -->
       <main class="app-main">
-        <slot />
+        <div class="app-main__inner">
+          <slot />
+        </div>
       </main>
     </div>
   </div>
@@ -111,6 +113,8 @@
   height: 100vh;
   padding: 2rem;
   gap: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .app-sidebar {
@@ -287,6 +291,26 @@
   flex: 1;
   overflow-y: auto;
   background: transparent;
+  display: flex;
+}
+
+.app-main__inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 1800px) {
+  .app-content {
+    max-width: 1760px;
+  }
+}
+
+@media (min-width: 2100px) {
+  .app-content {
+    max-width: 1920px;
+  }
 }
 
 /* Mobile responsive */
@@ -294,6 +318,7 @@
   .app-content {
     flex-direction: column;
     padding: 1rem;
+    max-width: none;
   }
 
   .app-sidebar {

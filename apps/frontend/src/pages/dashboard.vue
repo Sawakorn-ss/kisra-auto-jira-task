@@ -18,15 +18,21 @@
     <!-- Project Selector -->
     <div class="project-selector">
       <label for="project-select" class="project-label">Project Name</label>
-      <select id="project-select" v-model="selectedProject" class="project-select">
-        <option value="project-404">
-          Project 404
+      <select
+        id="project-select"
+        v-model="selectedProject"
+        class="project-select"
+        :disabled="isLoadingProjects"
+      >
+        <option value="" disabled>
+          {{ isLoadingProjects ? 'Loading projects...' : 'Select a project' }}
         </option>
-        <option value="project-1">
-          Project 1
-        </option>
-        <option value="project-2">
-          Project 2
+        <option
+          v-for="project in projects"
+          :key="project.id"
+          :value="project.key"
+        >
+          {{ project.name }}
         </option>
       </select>
     </div>
@@ -173,14 +179,36 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import DoughnutChart from '~/components/charts/DoughnutChart.vue'
+import { projectService, type JiraProject } from '~/services/projectService'
 
-const selectedProject = ref('project-404')
+const selectedProject = ref('')
+const projects = ref<JiraProject[]>([])
+const isLoadingProjects = ref(false)
 
 definePageMeta({
   layout: 'sidebar'
 })
+
+onMounted(async () => {
+  await loadProjects()
+})
+
+const loadProjects = async () => {
+  isLoadingProjects.value = true
+  try {
+    projects.value = await projectService.getAllProjects()
+    // Set default project if available
+    if (projects.value.length > 0) {
+      selectedProject.value = projects.value[0].key
+    }
+  } catch (error) {
+    console.error('Failed to load projects:', error)
+  } finally {
+    isLoadingProjects.value = false
+  }
+}
 </script>
 
 <style scoped>

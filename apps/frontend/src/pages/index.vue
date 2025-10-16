@@ -5,6 +5,8 @@
       Pick a project to start adding new requirements<br />
       Keep everything connected and easy to track
     </p>
+    </div>
+</template>
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
