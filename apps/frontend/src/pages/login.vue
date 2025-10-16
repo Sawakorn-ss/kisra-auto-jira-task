@@ -1,8 +1,7 @@
 <template>
   <section class="login">
     <div class="login__logo">
-      <!-- Logo placeholder - สามารถใส่โลโก้ที่นี่ -->
-      <div class="logo-placeholder"></div>
+      <div class="logo-placeholder">Kisra Auto Jira Task</div>
     </div>
 
     <header class="login__header">
@@ -114,21 +113,23 @@ async function handleSubmit() {
 .login__logo {
   display: flex;
   justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .logo-placeholder {
-  width: 80px;
-  height: 50px;
-  background: #c4c7d4;
-  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 32px;
+  font-weight: 600;
+  color: #6b7280;
+  text-align: center;
 }
 
 .login__header {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: 0.5rem;
 }
 
 .login__header h1 {
@@ -155,16 +156,21 @@ label {
 
 input {
   border-radius: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 2px solid rgba(148, 163, 184, 0.7);
   padding: 0.875rem 1rem;
   font-size: 1rem;
-  background: #ffffff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(248, 250, 252, 0.92);
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+input::placeholder {
+  color: rgba(107, 114, 128, 0.7);
 }
 
 input:focus {
-  border-color: #6b7280;
-  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   outline: none;
 }
 
@@ -176,7 +182,7 @@ input:focus {
 
 .password-field__input input {
   flex: 1;
-  background: #ffffff;
+  background: rgba(248, 250, 252, 0.92);
   padding-right: 4rem;
 }
 
