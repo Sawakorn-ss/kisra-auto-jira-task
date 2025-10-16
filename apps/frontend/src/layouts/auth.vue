@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import backgroundAsset from '~/assets/images/background.png?url';
+import { computed } from 'vue'
+import backgroundAsset from '~/assets/images/background.png?url'
 
-const backgroundImage = computed(() => `url('${backgroundAsset}')`);
+const backgroundImage = computed(() => `url('${backgroundAsset}')`)
 </script>
 
 <style scoped>

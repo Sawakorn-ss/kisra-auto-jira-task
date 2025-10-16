@@ -11,41 +11,41 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import RequirementEditor from '../components/RequirementEditor.vue';
-import DryRunBanner from '../components/DryRunBanner.vue';
-import StatusToasts from '../components/StatusToasts.vue';
-import { useRequirementStore } from '../stores/requirementStore';
-import { useStatusStore } from '../stores/statusStore';
+import { storeToRefs } from 'pinia'
+import RequirementEditor from '../components/RequirementEditor.vue'
+import DryRunBanner from '../components/DryRunBanner.vue'
+import StatusToasts from '../components/StatusToasts.vue'
+import { useRequirementStore } from '../stores/requirementStore'
+import { useStatusStore } from '../stores/statusStore'
 
-const requirementStore = useRequirementStore();
-const statusStore = useStatusStore();
+const requirementStore = useRequirementStore()
+const statusStore = useStatusStore()
 
-const draft = storeToRefs(requirementStore);
+const draft = storeToRefs(requirementStore)
 
-function toggleDryRun() {
-  requirementStore.setDryRun(false);
+function toggleDryRun () {
+  requirementStore.setDryRun(false)
   statusStore.pushToast({
     title: 'Dry-run disabled',
     message: 'Changes will now be applied directly to Jira.',
     variant: 'info'
-  });
+  })
 }
 
-function handleRefine() {
+function handleRefine () {
   statusStore.pushToast({
     title: 'Refine queued',
     message: 'The AI refinement service will update the draft shortly.',
     variant: 'info'
-  });
+  })
 }
 
-function handleBreakdown() {
+function handleBreakdown () {
   statusStore.pushToast({
     title: 'Breakdown queued',
     message: 'The AI orchestrator will generate a structured plan.',
     variant: 'info'
-  });
+  })
 }
 </script>
 

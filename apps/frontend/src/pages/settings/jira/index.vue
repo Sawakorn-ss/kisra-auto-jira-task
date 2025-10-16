@@ -11,30 +11,30 @@
       <label>
         Jira Site URL
         <input
-          type="url"
           v-model="jira.siteUrl"
+          type="url"
           placeholder="https://your-domain.atlassian.net"
           autocomplete="off"
           required
-        />
+        >
       </label>
       <label>
         Project Key
-        <input type="text" v-model="jira.projectKey" placeholder="ABC" autocomplete="off" required />
+        <input v-model="jira.projectKey" type="text" placeholder="ABC" autocomplete="off" required>
       </label>
       <label>
         Account Email
         <input
-          type="email"
           v-model="jira.email"
+          type="email"
           placeholder="admin@your-domain.com"
           autocomplete="off"
           required
-        />
+        >
       </label>
       <label>
         API Token
-        <input type="password" v-model="jira.apiToken" placeholder="Atlassian API token" required />
+        <input v-model="jira.apiToken" type="password" placeholder="Atlassian API token" required>
       </label>
     </form>
 
@@ -42,10 +42,14 @@
       <article class="metadata-card">
         <header>
           <h3>Boards</h3>
-          <button type="button" :disabled="isLoading.boards" @click="refreshBoards">Refresh</button>
+          <button type="button" :disabled="isLoading.boards" @click="refreshBoards">
+            Refresh
+          </button>
         </header>
         <select v-model.number="selectedBoardId" :disabled="!jira.boards.length">
-          <option disabled value="">Select a board</option>
+          <option disabled value="">
+            Select a board
+          </option>
           <option v-for="board in jira.boards" :key="board.id" :value="board.id">
             {{ board.name }} · {{ board.type }}
           </option>
@@ -58,10 +62,14 @@
       <article class="metadata-card">
         <header>
           <h3>Assignable Users</h3>
-          <button type="button" :disabled="isLoading.users" @click="refreshAssignableUsers">Refresh</button>
+          <button type="button" :disabled="isLoading.users" @click="refreshAssignableUsers">
+            Refresh
+          </button>
         </header>
         <select v-model="selectedAssigneeId" :disabled="!jira.assignableUsers.length">
-          <option disabled value="">Select an assignee</option>
+          <option disabled value="">
+            Select an assignee
+          </option>
           <option v-for="user in jira.assignableUsers" :key="user.accountId" :value="user.accountId">
             {{ user.displayName }} <span v-if="user.emailAddress">({{ user.emailAddress }})</span>
           </option>
@@ -74,10 +82,14 @@
       <article class="metadata-card">
         <header>
           <h3>Issue Types</h3>
-          <button type="button" :disabled="isLoading.issueTypes" @click="refreshIssueTypes">Refresh</button>
+          <button type="button" :disabled="isLoading.issueTypes" @click="refreshIssueTypes">
+            Refresh
+          </button>
         </header>
         <select v-model="taskForm.issueTypeId" :disabled="!issueTypes.length">
-          <option disabled value="">Select an issue type</option>
+          <option disabled value="">
+            Select an issue type
+          </option>
           <option
             v-for="issueType in issueTypes"
             :key="issueType.id"
@@ -107,7 +119,7 @@
       <form class="task-form" @submit.prevent="handleCreateTask">
         <label>
           Summary
-          <input type="text" v-model="taskForm.summary" placeholder="Task summary" required />
+          <input v-model="taskForm.summary" type="text" placeholder="Task summary" required>
         </label>
         <label>
           Description
@@ -136,33 +148,33 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { computed, reactive } from 'vue';
-import JiraFieldMapper from '../../../components/JiraFieldMapper.vue';
-import StatusToasts from '../../../components/StatusToasts.vue';
-import { useRequirementStore } from '../../../stores/requirementStore';
-import { useStatusStore } from '../../../stores/statusStore';
+import { storeToRefs } from 'pinia'
+import { computed, reactive } from 'vue'
+import JiraFieldMapper from '../../../components/JiraFieldMapper.vue'
+import StatusToasts from '../../../components/StatusToasts.vue'
+import { useRequirementStore } from '../../../stores/requirementStore'
+import { useStatusStore } from '../../../stores/statusStore'
 
-const requirementStore = useRequirementStore();
-const statusStore = useStatusStore();
-const { jira, rawText } = storeToRefs(requirementStore);
-const runtimeConfig = useRuntimeConfig();
-const apiBaseUrl = runtimeConfig.public.apiBaseUrl || 'http://localhost:3001';
+const requirementStore = useRequirementStore()
+const statusStore = useStatusStore()
+const { jira, rawText } = storeToRefs(requirementStore)
+const runtimeConfig = useRuntimeConfig()
+const apiBaseUrl = runtimeConfig.public.apiBaseUrl || 'http://localhost:3001'
 
 if (!jira.value.siteUrl && runtimeConfig.public.jiraDefaultSiteUrl) {
-  requirementStore.updateJiraState({ siteUrl: runtimeConfig.public.jiraDefaultSiteUrl });
+  requirementStore.updateJiraState({ siteUrl: runtimeConfig.public.jiraDefaultSiteUrl })
 }
 
 if (!jira.value.projectKey && runtimeConfig.public.jiraDefaultProjectKey) {
-  requirementStore.updateJiraState({ projectKey: runtimeConfig.public.jiraDefaultProjectKey });
+  requirementStore.updateJiraState({ projectKey: runtimeConfig.public.jiraDefaultProjectKey })
 }
 
 if (!jira.value.email && runtimeConfig.public.jiraDefaultEmail) {
-  requirementStore.updateJiraState({ email: runtimeConfig.public.jiraDefaultEmail });
+  requirementStore.updateJiraState({ email: runtimeConfig.public.jiraDefaultEmail })
 }
 
 if (!jira.value.apiToken && runtimeConfig.public.jiraDefaultApiToken) {
-  requirementStore.updateJiraState({ apiToken: runtimeConfig.public.jiraDefaultApiToken });
+  requirementStore.updateJiraState({ apiToken: runtimeConfig.public.jiraDefaultApiToken })
 }
 
 const isLoading = reactive({
@@ -171,204 +183,204 @@ const isLoading = reactive({
   users: false,
   issueTypes: false,
   create: false
-});
+})
 
 const taskForm = reactive({
   summary: '',
   description: '',
   issueTypeId: '',
   assigneeId: ''
-});
+})
 
 const selectedBoardId = computed({
   get: () => jira.value.selectedBoardId ?? '',
   set: (value: number | '') => {
     requirementStore.updateJiraState({
       selectedBoardId: value === '' ? undefined : value
-    });
+    })
   }
-});
+})
 
 const selectedAssigneeId = computed({
   get: () => jira.value.selectedAssigneeId ?? '',
   set: (value: string | '') => {
     requirementStore.updateJiraState({
       selectedAssigneeId: value === '' ? undefined : value
-    });
-    taskForm.assigneeId = value ?? '';
+    })
+    taskForm.assigneeId = value ?? ''
   }
-});
+})
 
-const issueTypes = computed(() => jira.value.createMeta?.issueTypes ?? []);
+const issueTypes = computed(() => jira.value.createMeta?.issueTypes ?? [])
 const metadataButtonLabel = computed(() =>
   jira.value.isConnected ? 'Refresh Metadata' : 'Load Jira Metadata'
-);
+)
 
-function requireCredentials() {
+function requireCredentials () {
   if (!jira.value.siteUrl || !jira.value.projectKey) {
-    throw new Error('Please provide Jira site URL and project key');
+    throw new Error('Please provide Jira site URL and project key')
   }
   if (jira.value.authMethod === 'apiToken' && (!jira.value.email || !jira.value.apiToken)) {
-    throw new Error('Please provide Jira email and API token');
+    throw new Error('Please provide Jira email and API token')
   }
 }
 
-function handleError(error: unknown, title: string) {
+function handleError (error: unknown, title: string) {
   const message =
     error instanceof Error
       ? error.message
       : typeof error === 'string'
         ? error
-        : 'Unexpected error occurred';
+        : 'Unexpected error occurred'
   statusStore.pushToast({
     title,
     message,
     variant: 'error'
-  });
+  })
 }
 
-async function loadMetadata() {
+async function loadMetadata () {
   try {
-    requireCredentials();
-    isLoading.metadata = true;
+    requireCredentials()
+    isLoading.metadata = true
     await Promise.all([
       requirementStore.fetchJiraBoards(apiBaseUrl),
       requirementStore.fetchAssignableUsers(apiBaseUrl),
       requirementStore.fetchCreateMeta(apiBaseUrl)
-    ]);
+    ])
 
-    const defaultIssueType = issueTypes.value.find((type) => !type.subtask) ?? issueTypes.value[0];
+    const defaultIssueType = issueTypes.value.find(type => !type.subtask) ?? issueTypes.value[0]
 
     requirementStore.updateJiraState({
       isConnected: true,
       selectedAssigneeId: jira.value.selectedAssigneeId,
       selectedBoardId: jira.value.selectedBoardId
-    });
+    })
 
     if (!taskForm.assigneeId && jira.value.assignableUsers.length) {
-      const defaultAssignee = jira.value.assignableUsers[0];
-      requirementStore.updateJiraState({ selectedAssigneeId: defaultAssignee.accountId });
-      taskForm.assigneeId = defaultAssignee.accountId;
+      const defaultAssignee = jira.value.assignableUsers[0]
+      requirementStore.updateJiraState({ selectedAssigneeId: defaultAssignee.accountId })
+      taskForm.assigneeId = defaultAssignee.accountId
     } else {
-      taskForm.assigneeId = jira.value.selectedAssigneeId ?? '';
+      taskForm.assigneeId = jira.value.selectedAssigneeId ?? ''
     }
 
     if (defaultIssueType) {
-      taskForm.issueTypeId = defaultIssueType.id;
+      taskForm.issueTypeId = defaultIssueType.id
     }
 
     statusStore.pushToast({
       title: 'Jira metadata loaded',
       message: 'Boards, assignable users, and issue types are ready.',
       variant: 'success'
-    });
+    })
   } catch (error) {
-    handleError(error, 'Failed to load Jira metadata');
+    handleError(error, 'Failed to load Jira metadata')
   } finally {
-    isLoading.metadata = false;
+    isLoading.metadata = false
   }
 }
 
-async function refreshBoards() {
+async function refreshBoards () {
   try {
-    requireCredentials();
-    isLoading.boards = true;
-    await requirementStore.fetchJiraBoards(apiBaseUrl);
+    requireCredentials()
+    isLoading.boards = true
+    await requirementStore.fetchJiraBoards(apiBaseUrl)
     statusStore.pushToast({
       title: 'Boards refreshed',
       message: `Loaded ${jira.value.boards.length} boards.`,
       variant: 'success'
-    });
+    })
   } catch (error) {
-    handleError(error, 'Unable to refresh boards');
+    handleError(error, 'Unable to refresh boards')
   } finally {
-    isLoading.boards = false;
+    isLoading.boards = false
   }
 }
 
-async function refreshAssignableUsers() {
+async function refreshAssignableUsers () {
   try {
-    requireCredentials();
-    isLoading.users = true;
-    await requirementStore.fetchAssignableUsers(apiBaseUrl);
+    requireCredentials()
+    isLoading.users = true
+    await requirementStore.fetchAssignableUsers(apiBaseUrl)
     statusStore.pushToast({
       title: 'Assignable users refreshed',
       message: `Loaded ${jira.value.assignableUsers.length} users.`,
       variant: 'success'
-    });
+    })
   } catch (error) {
-    handleError(error, 'Unable to refresh assignable users');
+    handleError(error, 'Unable to refresh assignable users')
   } finally {
-    isLoading.users = false;
+    isLoading.users = false
   }
 }
 
-async function refreshIssueTypes() {
+async function refreshIssueTypes () {
   try {
-    requireCredentials();
-    isLoading.issueTypes = true;
-    const meta = await requirementStore.fetchCreateMeta(apiBaseUrl);
+    requireCredentials()
+    isLoading.issueTypes = true
+    const meta = await requirementStore.fetchCreateMeta(apiBaseUrl)
     if (meta.issueTypes.length && !taskForm.issueTypeId) {
-      const nonSubtask = meta.issueTypes.find((type) => !type.subtask) ?? meta.issueTypes[0];
-      taskForm.issueTypeId = nonSubtask.id;
+      const nonSubtask = meta.issueTypes.find(type => !type.subtask) ?? meta.issueTypes[0]
+      taskForm.issueTypeId = nonSubtask.id
     }
     statusStore.pushToast({
       title: 'Issue types refreshed',
       message: `Loaded ${meta.issueTypes.length} issue types.`,
       variant: 'success'
-    });
+    })
   } catch (error) {
-    handleError(error, 'Unable to refresh issue types');
+    handleError(error, 'Unable to refresh issue types')
   } finally {
-    isLoading.issueTypes = false;
+    isLoading.issueTypes = false
   }
 }
 
-async function handleCreateTask() {
+async function handleCreateTask () {
   try {
-    requireCredentials();
+    requireCredentials()
     if (!taskForm.issueTypeId) {
-      throw new Error('Please choose an issue type before creating a task.');
+      throw new Error('Please choose an issue type before creating a task.')
     }
 
-    isLoading.create = true;
+    isLoading.create = true
     const response = await requirementStore.createJiraTask(apiBaseUrl, {
       summary: taskForm.summary,
       description: taskForm.description || undefined,
       issueTypeId: taskForm.issueTypeId,
       assigneeId: taskForm.assigneeId || jira.value.selectedAssigneeId || undefined
-    });
+    })
 
     statusStore.pushToast({
       title: 'Jira task created',
       message: `Issue ${response.key} created successfully.`,
       variant: 'success'
-    });
+    })
 
-    taskForm.summary = '';
-    taskForm.description = '';
+    taskForm.summary = ''
+    taskForm.description = ''
   } catch (error) {
-    handleError(error, 'Failed to create Jira task');
+    handleError(error, 'Failed to create Jira task')
   } finally {
-    isLoading.create = false;
+    isLoading.create = false
   }
 }
 
-function prefillFromDraft() {
-  taskForm.summary = taskForm.summary || rawText.value.slice(0, 200) || 'Requirement Task';
-  taskForm.description = taskForm.description || rawText.value;
+function prefillFromDraft () {
+  taskForm.summary = taskForm.summary || rawText.value.slice(0, 200) || 'Requirement Task'
+  taskForm.description = taskForm.description || rawText.value
 }
 
-function updateFieldMapping(mapping: typeof jira.value.fieldMapping) {
-  requirementStore.updateJiraState({ fieldMapping: mapping });
+function updateFieldMapping (mapping: typeof jira.value.fieldMapping) {
+  requirementStore.updateJiraState({ fieldMapping: mapping })
 }
 
-function saveFieldMapping(mapping: typeof jira.value.fieldMapping) {
+function saveFieldMapping (mapping: typeof jira.value.fieldMapping) {
   statusStore.pushToast({
     title: 'Mapping saved',
     message: 'Field mapping preset stored for this project.',
     variant: 'success'
-  });
+  })
 }
 </script>
 
