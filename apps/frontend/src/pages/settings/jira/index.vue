@@ -149,6 +149,22 @@ const { jira, rawText } = storeToRefs(requirementStore);
 const runtimeConfig = useRuntimeConfig();
 const apiBaseUrl = runtimeConfig.public.apiBaseUrl || 'http://localhost:3001';
 
+if (!jira.value.siteUrl && runtimeConfig.public.jiraDefaultSiteUrl) {
+  requirementStore.updateJiraState({ siteUrl: runtimeConfig.public.jiraDefaultSiteUrl });
+}
+
+if (!jira.value.projectKey && runtimeConfig.public.jiraDefaultProjectKey) {
+  requirementStore.updateJiraState({ projectKey: runtimeConfig.public.jiraDefaultProjectKey });
+}
+
+if (!jira.value.email && runtimeConfig.public.jiraDefaultEmail) {
+  requirementStore.updateJiraState({ email: runtimeConfig.public.jiraDefaultEmail });
+}
+
+if (!jira.value.apiToken && runtimeConfig.public.jiraDefaultApiToken) {
+  requirementStore.updateJiraState({ apiToken: runtimeConfig.public.jiraDefaultApiToken });
+}
+
 const isLoading = reactive({
   metadata: false,
   boards: false,

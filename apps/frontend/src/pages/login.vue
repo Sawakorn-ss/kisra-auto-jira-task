@@ -1,8 +1,12 @@
 <template>
   <section class="login">
+    <div class="login__logo">
+      <!-- Logo placeholder - สามารถใส่โลโก้ที่นี่ -->
+      <div class="logo-placeholder"></div>
+    </div>
+
     <header class="login__header">
-      <h1>Kisra Auto Jira Task</h1>
-      <p>Sign in to orchestrate AI-assisted requirements and Jira automation.</p>
+      <h1>Log in</h1>
     </header>
 
     <form class="login__form" @submit.prevent="handleSubmit">
@@ -28,14 +32,15 @@
             placeholder="••••••••"
             required
           />
-          <button type="button" class="ghost" @click="togglePasswordVisibility">
+          <button type="button" class="password-toggle" @click="togglePasswordVisibility">
+            <Icon :name="passwordVisible ? 'heroicons:eye-slash' : 'heroicons:eye'" class="toggle-icon" />
             {{ passwordVisible ? 'Hide' : 'Show' }}
           </button>
         </div>
       </label>
 
       <button type="submit" class="primary" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Signing in…' : 'Sign in' }}
+        {{ isSubmitting ? 'Logging in…' : 'Log in' }}
       </button>
 
       <p v-if="errorMessage" class="login__feedback login__feedback--error">
@@ -46,9 +51,6 @@
       </p>
     </form>
 
-    <footer class="login__footer">
-      <small>Need access? Contact your workspace administrator.</small>
-    </footer>
   </section>
 </template>
 
@@ -60,8 +62,8 @@ definePageMeta({
 });
 
 const credentials = reactive({
-  email: '',
-  password: ''
+  email: 'admin@mail.com',
+  password: '1234'
 });
 
 const passwordVisible = ref(false);
@@ -88,7 +90,7 @@ async function handleSubmit() {
     });
 
     if (credentials.email.trim().toLowerCase() === 'admin@mail.com' && credentials.password === '1234') {
-      successMessage.value = 'Sign-in successful. Redirecting to your workspace…';
+      successMessage.value = 'Log in successful. Redirecting to your workspace…';
       // TODO: replace with navigation to dashboard once auth flow is wired.
       setTimeout(() => {
         navigateTo('/');
@@ -106,25 +108,34 @@ async function handleSubmit() {
 .login {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 2rem;
+}
+
+.login__logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.logo-placeholder {
+  width: 80px;
+  height: 50px;
+  background: #c4c7d4;
+  border-radius: 1rem;
 }
 
 .login__header {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .login__header h1 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #0f172a;
-}
-
-.login__header p {
-  color: #475569;
-  font-size: 0.95rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
 }
 
 .login__form {
@@ -136,47 +147,76 @@ async function handleSubmit() {
 label {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  font-weight: 600;
-  color: #0f172a;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.9rem;
 }
 
 input {
   border-radius: 0.75rem;
-  border: 1px solid #cbd5f5;
-  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  padding: 0.875rem 1rem;
   font-size: 1rem;
-  background: #f8fafc;
+  background: #ffffff;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #6b7280;
+  box-shadow: 0 0 0 2px rgba(107, 114, 128, 0.1);
   outline: none;
 }
 
 .password-field__input {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .password-field__input input {
   flex: 1;
-  background: #f8fafc;
+  background: #ffffff;
+  padding-right: 4rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.password-toggle:hover {
+  background: rgba(107, 114, 128, 0.1);
+}
+
+.toggle-icon {
+  width: 1rem;
+  height: 1rem;
 }
 
 button.primary {
   width: 100%;
-  border-radius: 0.75rem;
-  border: 1px solid #1d4ed8;
-  padding: 0.75rem 1rem;
+  border-radius: 1.5rem;
+  border: none;
+  padding: 0.875rem 1rem;
   font-weight: 600;
-  background: #1d4ed8;
+  background: #000000;
   color: white;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  margin-top: 0.5rem;
 }
 
 button.primary:disabled {
@@ -185,28 +225,10 @@ button.primary:disabled {
 }
 
 button.primary:not(:disabled):hover {
+  background: #1f2937;
   transform: translateY(-1px);
 }
 
-button.ghost {
-  border: none;
-  background: transparent;
-  color: #2563eb;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.35rem 0.6rem;
-  border-radius: 0.6rem;
-}
-
-button.ghost:hover {
-  background: rgba(37, 99, 235, 0.08);
-}
-
-.login__footer {
-  text-align: center;
-  color: #64748b;
-  font-size: 0.9rem;
-}
 
 .login__feedback {
   margin: 0;
