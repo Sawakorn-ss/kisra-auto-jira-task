@@ -1,16 +1,19 @@
 <template>
   <div class="dashboard">
-    <header class="dashboard__header">
-      <h1 class="dashboard__title">
-        Dashboard
-      </h1>
-      <p class="dashboard__subtitle">
-        Get a complete overview of your projects and requirements in one place
-      </p>
-      <p class="dashboard__description">
-        Track progress, manage priorities, and keep your team aligned every step of the way
-      </p>
-    </header>
+    <div class="dashboard-card">
+      <div class="corner-accent"></div>
+
+      <header class="dashboard__header">
+        <h1 class="dashboard__title">
+          Dashboard
+        </h1>
+        <p class="dashboard__subtitle">
+          Get a complete overview of your projects and requirements in one place
+        </p>
+        <p class="dashboard__description">
+          Track progress, manage priorities, and keep your team aligned every step of the way
+        </p>
+      </header>
 
     <!-- Project Selector -->
     <div class="project-selector">
@@ -165,6 +168,7 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -181,9 +185,37 @@ definePageMeta({
 
 <style scoped>
 .dashboard {
+  min-height: 100vh;
+  background: transparent;
+  padding: 0;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 1rem;
   padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.corner-accent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+  border-radius: 0 1rem 0 100%;
+  z-index: 1;
+}
+
+.dashboard-card > *:not(.corner-accent) {
+  position: relative;
+  z-index: 2;
 }
 
 .dashboard__header {

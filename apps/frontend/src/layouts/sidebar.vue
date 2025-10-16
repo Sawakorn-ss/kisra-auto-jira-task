@@ -109,12 +109,15 @@
 .app-content {
   display: flex;
   height: 100vh;
+  padding: 2rem;
+  gap: 2rem;
 }
 
 .app-sidebar {
   width: 280px;
   background: white;
-  border-right: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -283,19 +286,21 @@
 .app-main {
   flex: 1;
   overflow-y: auto;
-  background: #f8fafc;
+  background: transparent;
 }
 
 /* Mobile responsive */
 @media (max-width: 768px) {
   .app-content {
     flex-direction: column;
+    padding: 1rem;
   }
 
   .app-sidebar {
     width: 100%;
     height: auto;
     order: 2;
+    margin-top: 1rem;
   }
 
   .app-main {
