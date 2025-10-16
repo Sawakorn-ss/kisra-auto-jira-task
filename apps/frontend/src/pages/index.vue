@@ -6,53 +6,43 @@
       Keep everything connected and easy to track
     </p>
 
-    <div class="flex flex-col items-center mt-6 space-y-4">
-      <select
-        v-model="selectedProject"
-        class="border border-gray-300 rounded-lg px-4 py-2 w-64 text-gray-700 focus:ring-2 focus:ring-black"
-      >
-        <option disabled value="">Project Name</option>
-        <option v-for="p in projects" :key="p.id" :value="p.key">
-          {{ p.name }}
-        </option>
-      </select>
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import RequirementEditor from '../components/RequirementEditor.vue'
+import DryRunBanner from '../components/DryRunBanner.vue'
+import StatusToasts from '../components/StatusToasts.vue'
+import { useRequirementStore } from '../stores/requirementStore'
+import { useStatusStore } from '../stores/statusStore'
 
-      <button
-        @click="selectProject"
-        class="bg-black text-white px-8 py-2.5 rounded-full hover:bg-gray-800 transition"
-      >
-        Select Project
-      </button>
-    </div>
-  </div>
-</template>
+const requirementStore = useRequirementStore()
+const statusStore = useStatusStore()
 
-<script setup>
-const selectedProject = ref('')
-const projects = ref([])
+const draft = storeToRefs(requirementStore)
 
-const selectProject = () => {
-  if (!selectedProject.value) {
-    alert('Please select a project first.')
-    return
-  }
-  alert(`Selected: ${selectedProject.value}`)
+function toggleDryRun () {
+  requirementStore.setDryRun(false)
+  statusStore.pushToast({
+    title: 'Dry-run disabled',
+    message: 'Changes will now be applied directly to Jira.',
+    variant: 'info'
+  })
 }
 
-// ✅ Fetch projects from Jira
-const getProjects = async () => {
-  const { apiBaseUrl } = useRuntimeConfig().public
-  try {
-    const data = await $fetch(`${apiBaseUrl}/rest/api/3/project/search`)
-    projects.value = Array.isArray(data?.values) ? data.values : (Array.isArray(data) ? data : [])
-  } catch (err) {
-    console.error('Failed to load projects', err)
-  }
+function handleRefine () {
+  statusStore.pushToast({
+    title: 'Refine queued',
+    message: 'The AI refinement service will update the draft shortly.',
+    variant: 'info'
+  })
 }
 
-onMounted(() => {
-  getProjects()
-})
+function handleBreakdown () {
+  statusStore.pushToast({
+    title: 'Breakdown queued',
+    message: 'The AI orchestrator will generate a structured plan.',
+    variant: 'info'
+  })
+}
 </script>
 
 <style scoped>

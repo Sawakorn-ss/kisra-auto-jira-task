@@ -2,7 +2,9 @@
   <section class="page">
     <header class="page-header">
       <h2>Templates</h2>
-      <button type="button" @click="createTemplate">New Template</button>
+      <button type="button" @click="createTemplate">
+        New Template
+      </button>
     </header>
 
     <ul class="template-list">
@@ -21,9 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import StatusToasts from '../../components/StatusToasts.vue';
-import { useStatusStore } from '../../stores/statusStore';
+import { ref } from 'vue'
+import StatusToasts from '../../components/StatusToasts.vue'
+import { useStatusStore } from '../../stores/statusStore'
 
 interface TemplateSummary {
   id: string;
@@ -32,7 +34,7 @@ interface TemplateSummary {
   version: number;
 }
 
-const statusStore = useStatusStore();
+const statusStore = useStatusStore()
 const templates = ref<TemplateSummary[]>([
   {
     id: 'vision-led',
@@ -40,14 +42,14 @@ const templates = ref<TemplateSummary[]>([
     description: 'Product vision to tasks with strong Gherkin acceptance criteria.',
     version: 1
   }
-]);
+])
 
-function createTemplate() {
+function createTemplate () {
   statusStore.pushToast({
     title: 'Template creation',
     message: 'Template builder coming soon.',
     variant: 'info'
-  });
+  })
 }
 </script>
 

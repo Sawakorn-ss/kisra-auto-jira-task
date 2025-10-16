@@ -1,7 +1,9 @@
 <template>
   <section class="login">
     <div class="login__logo">
-      <div class="logo-placeholder">Kisra Auto Jira Task</div>
+      <div class="logo-placeholder">
+        Kisra Auto Jira Task
+      </div>
     </div>
 
     <header class="login__header">
@@ -18,19 +20,19 @@
           autocomplete="email"
           placeholder="you@company.com"
           required
-        />
+        >
       </label>
 
       <label class="password-field">
         Password
         <div class="password-field__input">
           <input
-            :type="passwordVisible ? 'text' : 'password'"
             v-model="credentials.password"
+            :type="passwordVisible ? 'text' : 'password'"
             autocomplete="current-password"
             placeholder="••••••••"
             required
-          />
+          >
           <button type="button" class="password-toggle" @click="togglePasswordVisibility">
             <Icon :name="passwordVisible ? 'heroicons:eye-slash' : 'heroicons:eye'" class="toggle-icon" />
             {{ passwordVisible ? 'Hide' : 'Show' }}
@@ -49,56 +51,55 @@
         {{ successMessage }}
       </p>
     </form>
-
   </section>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref } from 'vue'
 
 definePageMeta({
   layout: 'auth'
-});
+})
 
 const credentials = reactive({
   email: 'admin@mail.com',
   password: '1234'
-});
+})
 
-const passwordVisible = ref(false);
-const isSubmitting = ref(false);
-const errorMessage = ref('');
-const successMessage = ref('');
+const passwordVisible = ref(false)
+const isSubmitting = ref(false)
+const errorMessage = ref('')
+const successMessage = ref('')
 
-function togglePasswordVisibility() {
-  passwordVisible.value = !passwordVisible.value;
+function togglePasswordVisibility () {
+  passwordVisible.value = !passwordVisible.value
 }
 
-async function handleSubmit() {
+async function handleSubmit () {
   if (isSubmitting.value) {
-    return;
+    return
   }
 
-  isSubmitting.value = true;
-  errorMessage.value = '';
-  successMessage.value = '';
+  isSubmitting.value = true
+  errorMessage.value = ''
+  successMessage.value = ''
 
   try {
     await new Promise((resolve) => {
-      setTimeout(resolve, 400);
-    });
+      setTimeout(resolve, 400)
+    })
 
     if (credentials.email.trim().toLowerCase() === 'admin@mail.com' && credentials.password === '1234') {
-      successMessage.value = 'Log in successful. Redirecting to your workspace…';
+      successMessage.value = 'Log in successful. Redirecting to your workspace…'
       // TODO: replace with navigation to dashboard once auth flow is wired.
       setTimeout(() => {
-        navigateTo('/');
-      }, 900);
+        navigateTo('/')
+      }, 900)
     } else {
-      errorMessage.value = 'Invalid email or password. Please try again.';
+      errorMessage.value = 'Invalid email or password. Please try again.'
     }
   } finally {
-    isSubmitting.value = false;
+    isSubmitting.value = false
   }
 }
 
@@ -240,7 +241,6 @@ button.primary:not(:disabled):hover {
   background: #1f2937;
   transform: translateY(-1px);
 }
-
 
 .login__feedback {
   margin: 0;
