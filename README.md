@@ -76,6 +76,33 @@ npm --prefix apps/backend run format:write
 - `npm run build:frontend` / `npm run build:backend` – สร้าง production bundle
 - `npm run lint` – เรียก lint ทั้งสองฝั่ง (ต้องติดตั้ง dependencies ก่อน)
 
+### การตั้งค่าการเชื่อมต่อ Jira (API Token + REST)
+
+1. กำหนดค่า environment สำหรับ Nuxt ให้ชี้กลับไปยัง backend (ค่าเริ่มต้นคือ `http://localhost:3001`)
+
+   ```bash
+   export NUXT_PUBLIC_API_BASE_URL=http://localhost:3001
+   ```
+
+   ฝั่ง NestJS สามารถตั้ง `JIRA_BASE_URL=https://your-domain.atlassian.net` เพื่อใช้เป็นค่าเริ่มต้น หากไม่ส่ง header `X-Jira-Site` มาจาก frontend
+
+2. สร้าง Atlassian API token จาก https://id.atlassian.com/manage-profile/security/api-tokens แล้วจด email + token ไว้สำหรับใส่ในหน้า `/settings/jira`
+3. รันทั้ง frontend/backend และเปิดหน้า **Settings → Jira Integration**
+4. กรอกข้อมูล
+   - Jira Site URL: `https://<tenant>.atlassian.net`
+   - Project Key: คีย์โปรเจกต์ (เช่น `ABC`)
+   - Account Email + API Token ที่สร้างในข้อ 2
+5. กด **Load Jira Metadata** เพื่อดึงรายการ board, ผู้ใช้ที่ assign ได้ และ issue type ของโปรเจกต์
+6. เลือก board/assignee ที่ต้องการ จากนั้นใส่ Summary/Description แล้วกด **Create Jira Task** เพื่อสร้าง issue จริงผ่าน REST API (`POST /rest/api/3/issue`)
+
+> Endpoint ฝั่ง backend ที่เตรียมไว้:  
+> - `GET /jira/boards?projectKeyOrId=...`  
+> - `GET /jira/boards/:boardId/sprints`  
+> - `GET /jira/users/assignable?projectKey=...`  
+> - `GET /jira/issue/createmeta?projectKey=...`  
+> - `GET /jira/fields`  
+> - `POST /jira/issues` (รองรับ `fields` ตามสเปก Jira REST v3)
+
 ## 1. เป้าหมาย (Product Goals)
 - รับ requirement จากผู้ใช้ (ไทย/อังกฤษ) แล้วระบบช่วยเกลาภาษาและจัดรูปแบบเป็นสเปกที่อ่านง่าย
 - สรุปและแตกโครงงานเป็น Roadmap → Epics → User Stories → Tasks/Subtasks
@@ -159,4 +186,3 @@ npm --prefix apps/backend run format:write
 
 ## 5. สคีมา/สัญญา (Contracts & Schemas)
 - (เว้นว่างไว้เพื่อเติม AI Output Schema ตัวอย่างในอนาคต)
-
