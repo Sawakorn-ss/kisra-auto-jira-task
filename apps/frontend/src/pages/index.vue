@@ -12,9 +12,9 @@
         class="border border-gray-300 rounded-lg px-4 py-2 w-64 text-gray-700 focus:ring-2 focus:ring-black"
       >
         <option disabled value="">Project Name</option>
-        <!-- <option v-for="p in prlue?.valuejects" :key="p.id" :value="p.key">
+        <option v-for="p in projects" :key="p.id" :value="p.key">
           {{ p.name }}
-        </option> -->
+        </option>
       </select>
 
       <button
@@ -41,28 +41,12 @@ const selectProject = () => {
 
 // ✅ Fetch projects from Jira
 const getProjects = async () => {
-  const runtimePublic = useRuntimeConfig().public
+  const { apiBaseUrl } = useRuntimeConfig().public
   try {
-    const { data, error } = await fetch (
-      'https://kisratech.atlassian.net/rest/api/3/project/search',
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          // 🧠 ต้องใส่ token จริงของคุณ (จาก  Atlassian OAuth หรือ API token)
-          'Authorization': 'Basic ' + btoa(runtimePublic.email + ':' + runtimePublic.token)
-        },
-      }
-    )
-
-    if (error.value) {
-      console.error('Jira Error:', error.value)
-      return
-    }
-    console.log(data.value)
-    // Jira response structure: { values: [...] }
-    selectedProject.value = data.value|| []
+    const data = await $fetch(`${apiBaseUrl}/rest/api/3/project/search`)
+    projects.value = Array.isArray(data?.values) ? data.values : (Array.isArray(data) ? data : [])
   } catch (err) {
-    console.error(err)
+    console.error('Failed to load projects', err)
   }
 }
 
