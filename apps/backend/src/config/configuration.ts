@@ -7,7 +7,9 @@ export default () => ({
     baseUrl: process.env.JIRA_BASE_URL ?? '',
     clientId: process.env.JIRA_CLIENT_ID ?? '',
     clientSecret: process.env.JIRA_CLIENT_SECRET ?? '',
-    redirectUri: process.env.JIRA_REDIRECT_URI ?? ''
+    redirectUri: process.env.JIRA_REDIRECT_URI ?? '',
+    email: process.env.JIRA_EMAIL ?? '',
+    apiToken: process.env.JIRA_API_TOKEN ?? ''
   },
   ai: {
     provider: process.env.AI_PROVIDER ?? 'openai',
